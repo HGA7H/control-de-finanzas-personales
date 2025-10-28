@@ -16,251 +16,257 @@
 </head>
 <body>
 
-    <header>
-        <h1 id="app-title">Agregar Movimiento</h1>
-    </header>
+    <!-- ****** INICIO DE LA CORRECCIÓN ****** -->
+    <!-- 1. Añadimos este div contenedor -->
+    <div id="app-container">
+        <header>
+            <h1 id="app-title">Agregar Movimiento</h1>
+        </header>
 
-    <main>
-        <!-- Pantalla 1: Agregar -->
-        <section id="page-agregar" class="page active">
-            <form id="form-agregar" class="card">
-                <h2>Nuevo Movimiento</h2>
-                
-                <div class="tipo-selector">
-                    <input type="radio" id="tipo-gasto" name="tipo" value="gasto" checked>
-                    <label for="tipo-gasto">Gasto</label>
+        <main>
+            <!-- Pantalla 1: Agregar -->
+            <section id="page-agregar" class="page active">
+                <form id="form-agregar" class="card">
+                    <h2>Nuevo Movimiento</h2>
                     
-                    <input type="radio" id="tipo-ingreso" name="tipo" value="ingreso">
-                    <label for="tipo-ingreso">Ingreso</label>
-                </div>
-                
-                <div class="form-group">
-                    <label for="categoria">Categoría</label>
-                    <select id="categoria" required>
-                        <!-- Opciones se cargarán dinámicamente con JS -->
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <label for="monto">Monto (USD)</label>
-                    <input type="number" id="monto" min="0.01" step="0.01" placeholder="0.00" required>
-                </div>
+                    <div class="tipo-selector">
+                        <input type="radio" id="tipo-gasto" name="tipo" value="gasto" checked>
+                        <label for="tipo-gasto">Gasto</label>
+                        
+                        <input type="radio" id="tipo-ingreso" name="tipo" value="ingreso">
+                        <label for="tipo-ingreso">Ingreso</label>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="categoria">Categoría</label>
+                        <select id="categoria" required>
+                            <!-- Opciones se cargarán dinámicamente con JS -->
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="monto">Monto (USD)</label>
+                        <input type="number" id="monto" min="0.01" step="0.01" placeholder="0.00" required>
+                    </div>
 
-                <div class="form-group">
-                    <label for="fecha">Fecha</label>
-                    <input type="date" id="fecha" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="descripcion">Descripción (Opcional)</label>
-                    <textarea id="descripcion" rows="3" placeholder="Ej: Cena con amigos"></textarea>
-                </div>
-                
-                <button type="submit" class="btn-submit">Guardar Movimiento</button>
-            </form>
-        </section>
+                    <div class="form-group">
+                        <label for="fecha">Fecha</label>
+                        <input type="date" id="fecha" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="descripcion">Descripción (Opcional)</label>
+                        <textarea id="descripcion" rows="3" placeholder="Ej: Cena con amigos"></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn-submit">Guardar Movimiento</button>
+                </form>
+            </section>
 
-        <!-- Pantalla 2: Resumen -->
-        <section id="page-resumen" class="page">
-            
-            <div id="balance-container" class="card">
-                <div class="balance-card">
-                    <span class="balance-label">Ingresos Totales</span>
-                    <span id="total-ingresos" class="monto ingreso">$0.00</span>
-                </div>
-                <div class="balance-card">
-                    <span class="balance-label">Gastos Totales</span>
-                    <span id="total-gastos" class="monto gasto">$0.00</span>
-                </div>
-                <div class="balance-neto-card">
-                    <span class="balance-label">Balance Neto</span>
-                    <span id="balance-neto">$0.00</span>
-                </div>
-            </div>
-
-            <div id="filters-resumen" class="filters-container card">
-                <h3>Filtros de Gráficos</h3>
-                <div class="form-group">
-                    <label for="filter-tipo-resumen">Tipo</label>
-                    <select id="filter-tipo-resumen">
-                        <option value="todos">Todos</option>
-                        <option value="gasto">Gastos</option>
-                        <option value="ingreso">Ingresos</option>
-                    </select>
-                </div>
+            <!-- Pantalla 2: Resumen -->
+            <section id="page-resumen" class="page">
                 
-                <div class="form-group">
-                    <label for="filter-fecha-tipo-resumen">Tipo de Filtro de Fecha</label>
-                    <select id="filter-fecha-tipo-resumen">
-                        <option value="general">General</option>
-                        <option value="diario">Diario</option>
-                        <option value="mensual">Mensual</option>
-                        <option value="anual">Anual</option>
-                    </select>
-                </div>
-                
-                <div id="filter-fecha-diario-resumen" class="form-group filter-date-specific hidden">
-                    <label for="filter-fecha-dia-input-resumen">Día</label>
-                    <input type="date" id="filter-fecha-dia-input-resumen">
-                </div>
-                <div id="filter-fecha-mensual-resumen" class="form-group filter-date-specific hidden">
-                    <label for="filter-fecha-mes-input-resumen">Mes</label>
-                    <input type="month" id="filter-fecha-mes-input-resumen">
-                </div>
-                <div id="filter-fecha-anual-resumen" class="form-group filter-date-specific hidden">
-                    <label for="filter-fecha-anio-input-resumen">Año</label>
-                    <input type="number" id="filter-fecha-anio-input-resumen" placeholder="Ej: 2024" min="2000" max="2100">
-                </div>
-
-                <button id="btn-aplicar-filtros-resumen" class="btn-submit">Aplicar Filtros</button>
-            </div>
-            
-            <div class="charts-container">
-                <div class="chart-wrapper card">
-                    <h3>Gastos por Categoría</h3>
-                    <canvas id="chart-gastos"></canvas>
-                </div>
-                <div class="chart-wrapper card">
-                    <h3>Ingresos por Categoría</h3>
-                    <canvas id="chart-ingresos"></canvas>
-                </div>
-            </div>
-        </section>
-
-        <!-- Pantalla 3: Registros -->
-        <section id="page-registros" class="page">
-            <div id="filters-registros" class="filters-container card">
-                <h3>Filtros de Registros</h3>
-                
-                <div class="form-group">
-                    <label for="filter-tipo-registros">Tipo</label>
-                    <select id="filter-tipo-registros">
-                        <option value="todos">Todos</option>
-                        <option value="gasto">Gastos</option>
-                        <option value="ingreso">Ingresos</option>
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <label for="filter-sort-registros">Ordenar por</label>
-                    <select id="filter-sort-registros">
-                        <option value="newest">Más reciente primero</option>
-                        <option value="oldest">Más antiguo primero</option>
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <label for="filter-fecha-tipo">Tipo de Filtro de Fecha</label>
-                    <select id="filter-fecha-tipo">
-                        <option value="general">General</option>
-                        <option value="diario">Diario</option>
-                        <option value="mensual">Mensual</option>
-                        <option value="anual">Anual</option>
-                    </select>
-                </div>
-                
-                <div id="filter-fecha-diario" class="form-group filter-date-specific hidden">
-                    <label for="filter-fecha-dia-input">Día</label>
-                    <input type="date" id="filter-fecha-dia-input">
-                </div>
-                <div id="filter-fecha-mensual" class="form-group filter-date-specific hidden">
-                    <label for="filter-fecha-mes-input">Mes</label>
-                    <input type="month" id="filter-fecha-mes-input">
-                </div>
-                <div id="filter-fecha-anual" class="form-group filter-date-specific hidden">
-                    <label for="filter-fecha-anio-input">Año</label>
-                    <input type="number" id="filter-fecha-anio-input" placeholder="Ej: 2024" min="2000" max="2100">
-                </div>
-
-                <button id="btn-aplicar-filtros-registros" class="btn-submit">Aplicar Filtros</button>
-                
-                <!-- REQ 1: Botón de Exportar a Excel -->
-                <button id="btn-export-excel" class="btn-secondary">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path><polyline points="16 6 12 2 8 6"></polyline><line x1="12" y1="2" x2="12" y2="15"></line></svg>
-                    Exportar a Excel (.xlsx)
-                </button>
-            </div>
-            
-            <div id="lista-registros" class="card">
-                <!-- Los registros se renderizarán aquí -->
-            </div>
-        </section>
-
-        <!-- Pantalla 4: Configuración -->
-        <section id="page-configuracion" class="page">
-            <div class="card">
-                <h2>Configuración</h2>
-                
-                <!-- REQ 2: Instalación de PWA -->
-                <div class="config-item">
-                    <h3>Instalar Aplicación</h3>
-                    <p>Instala esta aplicación en tu dispositivo para un acceso rápido y uso sin conexión.</p>
-                    <button id="btn-install-pwa" class="btn-submit hidden" style="margin-top: 1rem;">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                        Instalar Aplicación
-                    </button>
-                    <p id="install-message" class="text-light-sm">Si el botón no aparece, es posible que tu navegador no sea compatible o que la app ya esté instalada.</p>
-                </div>
-
-                <!-- Tema Oscuro/Claro -->
-                <div class="config-item">
-                    <h3>Apariencia</h3>
-                    <div class="theme-switch-wrapper">
-                        <label>Modo Oscuro</label>
-                        <label class="theme-switch">
-                            <input type="checkbox" id="theme-toggle">
-                            <span class="slider round"></span>
-                        </label>
+                <div id="balance-container" class="card">
+                    <div class="balance-card">
+                        <span class="balance-label">Ingresos Totales</span>
+                        <span id="total-ingresos" class="monto ingreso">$0.00</span>
+                    </div>
+                    <div class="balance-card">
+                        <span class="balance-label">Gastos Totales</span>
+                        <span id="total-gastos" class="monto gasto">$0.00</span>
+                    </div>
+                    <div class="balance-neto-card">
+                        <span class="balance-label">Balance Neto</span>
+                        <span id="balance-neto">$0.00</span>
                     </div>
                 </div>
 
-                <!-- Gestión de Categorías -->
-                <div class="config-item">
-                    <h3>Gestionar Categorías</h3>
-                    <form id="form-agregar-categoria" class="form-inline">
-                        <input type="text" id="input-nueva-categoria" placeholder="Nombre de categoría" required>
-                        <select id="select-tipo-categoria">
-                            <option value="gasto">Gasto</option>
-                            <option value="ingreso">Ingreso</option>
+                <div id="filters-resumen" class="filters-container card">
+                    <h3>Filtros de Gráficos</h3>
+                    <div class="form-group">
+                        <label for="filter-tipo-resumen">Tipo</label>
+                        <select id="filter-tipo-resumen">
+                            <option value="todos">Todos</option>
+                            <option value="gasto">Gastos</option>
+                            <option value="ingreso">Ingresos</option>
                         </select>
-                        <button type="submit" class="btn-add">+</button>
-                    </form>
+                    </div>
                     
-                    <h4>Gastos</h4>
-                    <ul id="lista-cat-gasto" class="categoria-list">
-                        <!-- Categorías de gasto aquí -->
-                    </ul>
+                    <div class="form-group">
+                        <label for="filter-fecha-tipo-resumen">Tipo de Filtro de Fecha</label>
+                        <select id="filter-fecha-tipo-resumen">
+                            <option value="general">General</option>
+                            <option value="diario">Diario</option>
+                            <option value="mensual">Mensual</option>
+                            <option value="anual">Anual</option>
+                        </select>
+                    </div>
                     
-                    <h4>Ingresos</h4>
-                    <ul id="lista-cat-ingreso" class="categoria-list">
-                        <!-- Categorías de ingreso aquí -->
-                    </ul>
+                    <div id="filter-fecha-diario-resumen" class="form-group filter-date-specific hidden">
+                        <label for="filter-fecha-dia-input-resumen">Día</label>
+                        <input type="date" id="filter-fecha-dia-input-resumen">
+                    </div>
+                    <div id="filter-fecha-mensual-resumen" class="form-group filter-date-specific hidden">
+                        <label for="filter-fecha-mes-input-resumen">Mes</label>
+                        <input type="month" id="filter-fecha-mes-input-resumen">
+                    </div>
+                    <div id="filter-fecha-anual-resumen" class="form-group filter-date-specific hidden">
+                        <label for="filter-fecha-anio-input-resumen">Año</label>
+                        <input type="number" id="filter-fecha-anio-input-resumen" placeholder="Ej: 2024" min="2000" max="2100">
+                    </div>
+
+                    <button id="btn-aplicar-filtros-resumen" class="btn-submit">Aplicar Filtros</button>
                 </div>
-            </div>
-        </section>
-    </main>
+                
+                <div class="charts-container">
+                    <div class="chart-wrapper card">
+                        <h3>Gastos por Categoría</h3>
+                        <canvas id="chart-gastos"></canvas>
+                    </div>
+                    <div class="chart-wrapper card">
+                        <h3>Ingresos por Categoría</h3>
+                        <canvas id="chart-ingresos"></canvas>
+                    </div>
+                </div>
+            </section>
 
-    <!-- Navegación -->
-    <nav>
-        <button data-page="agregar" class="nav-btn active" aria-label="Agregar">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
-            <span>Agregar</span>
-        </button>
-        <button data-page="resumen" class="nav-btn" aria-label="Resumen">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/></svg>
-            <span>Resumen</span>
-        </button>
-        <button data-page="registros" class="nav-btn" aria-label="Registros">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>
-            <span>Registros</span>
-        </button>
-        <button data-page="configuracion" class="nav-btn" aria-label="Configuración">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.38a2 2 0 0 0-.73-2.73l-.15-.1a2 2 0 0 1-1-1.72v-.51a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2zM12 9a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"/></svg>
-            <span>Ajustes</span>
-        </button>
-    </nav>
+            <!-- Pantalla 3: Registros -->
+            <section id="page-registros" class="page">
+                <div id="filters-registros" class="filters-container card">
+                    <h3>Filtros de Registros</h3>
+                    
+                    <div class="form-group">
+                        <label for="filter-tipo-registros">Tipo</label>
+                        <select id="filter-tipo-registros">
+                            <option value="todos">Todos</option>
+                            <option value="gasto">Gastos</option>
+                            <option value="ingreso">Ingresos</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="filter-sort-registros">Ordenar por</label>
+                        <select id="filter-sort-registros">
+                            <option value="newest">Más reciente primero</option>
+                            <option value="oldest">Más antiguo primero</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="filter-fecha-tipo">Tipo de Filtro de Fecha</label>
+                        <select id="filter-fecha-tipo">
+                            <option value="general">General</option>
+                            <option value="diario">Diario</option>
+                            <option value="mensual">Mensual</option>
+                            <option value="anual">Anual</option>
+                        </select>
+                    </div>
+                    
+                    <div id="filter-fecha-diario" class="form-group filter-date-specific hidden">
+                        <label for="filter-fecha-dia-input">Día</label>
+                        <input type="date" id="filter-fecha-dia-input">
+                    </div>
+                    <div id="filter-fecha-mensual" class="form-group filter-date-specific hidden">
+                        <label for="filter-fecha-mes-input">Mes</label>
+                        <input type="month" id="filter-fecha-mes-input">
+                    </div>
+                    <div id="filter-fecha-anual" class="form-group filter-date-specific hidden">
+                        <label for="filter-fecha-anio-input">Año</label>
+                        <input type="number" id="filter-fecha-anio-input" placeholder="Ej: 2024" min="2000" max="2100">
+                    </div>
 
-    <!-- Modal Genérico -->
+                    <button id="btn-aplicar-filtros-registros" class="btn-submit">Aplicar Filtros</button>
+                    
+                    <!-- REQ 1: Botón de Exportar a Excel -->
+                    <button id="btn-export-excel" class="btn-secondary">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path><polyline points="16 6 12 2 8 6"></polyline><line x1="12" y1="2" x2="12" y2="15"></line></svg>
+                        Exportar a Excel (.xlsx)
+                    </button>
+                </div>
+                
+                <div id="lista-registros" class="card">
+                    <!-- Los registros se renderizarán aquí -->
+                </div>
+            </section>
+
+            <!-- Pantalla 4: Configuración -->
+            <section id="page-configuracion" class="page">
+                <div class="card">
+                    <h2>Configuración</h2>
+                    
+                    <!-- REQ 2: Instalación de PWA -->
+                    <div class="config-item">
+                        <h3>Instalar Aplicación</h3>
+                        <p>Instala esta aplicación en tu dispositivo para un acceso rápido y uso sin conexión.</p>
+                        <button id="btn-install-pwa" class="btn-submit hidden" style="margin-top: 1rem;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                            Instalar Aplicación
+                        </button>
+                        <p id="install-message" class="text-light-sm">Si el botón no aparece, es posible que tu navegador no sea compatible o que la app ya esté instalada.</p>
+                    </div>
+
+                    <!-- Tema Oscuro/Claro -->
+                    <div class="config-item">
+                        <h3>Apariencia</h3>
+                        <div class="theme-switch-wrapper">
+                            <label>Modo Oscuro</label>
+                            <label class="theme-switch">
+                                <input type="checkbox" id="theme-toggle">
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Gestión de Categorías -->
+                    <div class="config-item">
+                        <h3>Gestionar Categorías</h3>
+                        <form id="form-agregar-categoria" class="form-inline">
+                            <input type="text" id="input-nueva-categoria" placeholder="Nombre de categoría" required>
+                            <select id="select-tipo-categoria">
+                                <option value="gasto">Gasto</option>
+                                <option value="ingreso">Ingreso</option>
+                            </select>
+                            <button type="submit" class="btn-add">+</button>
+                        </form>
+                        
+                        <h4>Gastos</h4>
+                        <ul id="lista-cat-gasto" class="categoria-list">
+                            <!-- Categorías de gasto aquí -->
+                        </ul>
+                        
+                        <h4>Ingresos</h4>
+                        <ul id="lista-cat-ingreso" class="categoria-list">
+                            <!-- Categorías de ingreso aquí -->
+                        </ul>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Navegación -->
+        <nav>
+            <button data-page="agregar" class="nav-btn active" aria-label="Agregar">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+                <span>Agregar</span>
+            </button>
+            <button data-page="resumen" class="nav-btn" aria-label="Resumen">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/></svg>
+                <span>Resumen</span>
+            </button>
+            <button data-page="registros" class="nav-btn" aria-label="Registros">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>
+                <span>Registros</span>
+            </button>
+            <button data-page="configuracion" class="nav-btn" aria-label="Configuración">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.38a2 2 0 0 0-.73-2.73l-.15-.1a2 2 0 0 1-1-1.72v-.51a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2zM12 9a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"/></svg>
+                <span>Ajustes</span>
+            </button>
+        </nav>
+    </div> <!-- /#app-container -->
+    <!-- ****** FIN DE LA CORRECCIÓN ****** -->
+
+
+    <!-- Modal Genérico (se mantiene fuera del contenedor) -->
     <div id="modal-container" class="hidden">
         <div class="modal-box">
             <button id="modal-close" aria-label="Cerrar">&times;</button>
@@ -274,6 +280,3 @@
     <script src="script.js"></script>
 </body>
 </html>
-
-
-
