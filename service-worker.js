@@ -1,15 +1,19 @@
-const CACHE_NAME = 'gastos-app-cache-v2'; // Incrementamos la versión del caché
+const CACHE_NAME = 'gastos-app-cache-v3'; // Incrementamos la versión del caché
 // Lista de archivos para guardar en caché
+// ****** INICIO DE LA CORRECCIÓN ******
+// Se cambiaron todas las rutas de /ruta a ./ruta o solo ruta
 const urlsToCache = [
-  '/',
-  '/index.html',
-  '/style.css',
-  '/script.js',
-  '/manifest.json',
+  './', // Representa el directorio raíz (donde está index.html)
+  'index.html',
+  'style.css',
+  'script.js',
+  'manifest.json',
   'https://cdn.jsdelivr.net/npm/chart.js', // Biblioteca de gráficos
   'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js' // REQ 1: Biblioteca de Excel
-  // Deberías agregar aquí las URLs de tus iconos (ej: '/images/icon-192x192.png')
+  // Deberías agregar aquí las URLs de tus iconos (ej: 'images/icon-192x192.png')
+  // Nota: asegúrate de que la ruta 'images/...' sea correcta.
 ];
+// ****** FIN DE LA CORRECCIÓN ******
 
 // Evento "install": Se dispara cuando el SW se instala
 self.addEventListener('install', event => {
@@ -81,4 +85,7 @@ self.addEventListener('fetch', event => {
       })
   );
 });
+
+
+
 
