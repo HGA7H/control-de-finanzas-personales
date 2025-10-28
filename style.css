@@ -39,11 +39,23 @@ body {
     font-family: 'Inter', sans-serif;
     background-color: var(--bg-light);
     color: var(--text-dark);
+    transition: background-color 0.3s, color 0.3s;
+    /* Las reglas de layout (display, height, overflow) 
+       se movieron a #app-container */
+}
+
+/* --- ****** INICIO DE LA CORRECCIÓN ****** --- */
+
+/* 1. Nuevo contenedor de la app */
+#app-container {
     display: flex;
     flex-direction: column;
     height: 100vh;
+    /* Si sigues viendo problemas en iOS, cambia '100vh' por '100svh' */
     overflow: hidden;
-    transition: background-color 0.3s, color 0.3s;
+    width: 100%;
+    margin: 0 auto;
+    position: relative; 
 }
 
 /* --- Layout Principal --- */
@@ -54,6 +66,8 @@ header {
     text-align: center;
     border-bottom: 1px solid var(--border-color);
     transition: background-color 0.3s, border-color 0.3s;
+    /* 2. Hacemos que el header no se encoja */
+    flex-shrink: 0;
 }
 
 header h1 {
@@ -67,6 +81,8 @@ main {
     overflow-y: auto;
     padding: 1.5rem;
 }
+
+/* --- ****** FIN DE LA CORRECCIÓN ****** --- */
 
 .page { display: none; }
 .page.active { display: block; animation: fadeIn 0.3s ease-out; }
@@ -96,6 +112,11 @@ nav {
     padding: 0.75rem 0;
     box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.05);
     transition: background-color 0.3s, border-color 0.3s;
+    /* 3. Hacemos que el nav no se encoja */
+    flex-shrink: 0;
+    
+    /* 4. Arreglo para botones del teléfono (safe area) */
+    padding-bottom: calc(0.75rem + env(safe-area-inset-bottom));
 }
 
 .nav-btn {
@@ -357,36 +378,45 @@ input:checked + .slider:before { transform: translateX(22px); }
     padding: 0.75rem 1.5rem;
 }
 
-/* Responsividad (del archivo original) */
+/* --- ****** INICIO CORRECCIÓN RESPONSIVIDAD ****** --- */
 @media (min-width: 768px) {
     body {
+        /* 1. Centramos el contenedor en el body */
+        display: flex;
         flex-direction: row;
         justify-content: center;
         align-items: center;
         background: #E0E7FF; /* Fondo para escritorio */
+        height: 100vh; /* Aseguramos que el body ocupe todo */
     }
     
-    /* Si quieres que en escritorio se vea centrado como una app,
-    envuelve todo tu <body> en un <div id="app-container">
-    y descomenta este código:
-    */
-    
-    /*
+    /* 2. Damos al app-container forma de "teléfono" */
     #app-container {
-        max-width: 450px;
+        max-width: 450px; /* Ancho máximo */
         width: 100%;
-        height: 90vh;
-        max-height: 800px;
+        height: 90vh; /* Alto máximo */
+        max-height: 850px;
         box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
         border-radius: 20px;
-        display: flex;
-        flex-direction: column;
-        overflow: hidden;
+        /* Las reglas de flexbox (display: flex, etc.) 
+           ya están definidas en la regla base */
+        overflow: hidden; /* Aseguramos que el contenido respete el borde redondeado */
     }
-    header { border-radius: 20px 20px 0 0; }
-    nav { border-radius: 0 0 20px 20px; }
-    */
+    
+    /* 3. Aplicamos bordes redondeados al header y nav */
+    #app-container header {
+        border-radius: 20px 20px 0 0;
+    }
+    #app-container nav {
+        border-radius: 0 0 20px 20px;
+        /* Quitamos el padding-bottom de safe-area en escritorio */
+        padding-bottom: 0.75rem; 
+    }
 }
+/* --- ****** FIN CORRECCIÓN RESPONSIVIDAD ****** --- */
+
+
+
 
 
 
