@@ -100,9 +100,12 @@ document.addEventListener('DOMContentLoaded', () => {
         // Registrar Service Worker
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/service-worker.js')
+                // ****** INICIO DE LA CORRECCIÓN ******
+                // Se cambió de '/service-worker.js' a './service-worker.js'
+                navigator.serviceWorker.register('./service-worker.js') 
                     .then(registration => console.log('ServiceWorker registrado con éxito:', registration.scope))
                     .catch(error => console.log('Error al registrar ServiceWorker:', error));
+                // ****** FIN DE LA CORRECCIÓN ******
             });
         }
 
@@ -787,5 +790,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Arrancar la aplicación --- //
     init();
 });
+
+
+
 
 
